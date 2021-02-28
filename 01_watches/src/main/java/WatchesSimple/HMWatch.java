@@ -13,7 +13,7 @@ public class HMWatch {
         this.m = 0;
     }
 
-    public void setTime(int h, int m, int s) throws Exception {
+    public void setTime(int h, int m) throws Exception {
         if (h < 0 || h > 11)
             throw new Exception("Hours must be between 0 and 11");
         if (m < 0 || m > 59)
@@ -22,13 +22,13 @@ public class HMWatch {
         this.m = m;
     }
 
-    public void addTime(int h, int m, int s) {
+    public void addTime(int h, int m) {
         this.h = (this.h + h) % 12;
         this.m = (this.m + m) % 60;
     }
 
     public int[] getTime() {
-        return new int[]{ this.h, this.m, 0 };
+        return new int[]{ this.h, this.m };
     }
 
     public double getPrice() {
