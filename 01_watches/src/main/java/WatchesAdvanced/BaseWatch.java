@@ -1,10 +1,10 @@
-package WatchesX;
+package WatchesAdvanced;
 
-public abstract class BaseWatchX {
+public abstract class BaseWatch {
     private String name;
     private double price;
 
-    public BaseWatchX(String name, double price) {
+    public BaseWatch(String name, double price) {
         this.price = price;
         this.name = name;
     }

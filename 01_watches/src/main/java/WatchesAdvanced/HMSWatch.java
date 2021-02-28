@@ -1,9 +1,9 @@
-package WatchesX;
+package WatchesAdvanced;
 
-public class HMSWatchX extends HMWatchX {
-    private int s;
+public class HMSWatch extends HMWatch {
+    protected int s;
 
-    public HMSWatchX(String name, double price) {
+    public HMSWatch(String name, double price) {
         super(name, price);
         this.s = 0;
     }

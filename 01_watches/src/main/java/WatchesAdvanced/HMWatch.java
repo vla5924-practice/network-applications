@@ -1,10 +1,10 @@
-package WatchesX;
+package WatchesAdvanced;
 
-public class HMWatchX extends BaseWatchX {
-    private int h;
-    private int m;
+public class HMWatch extends BaseWatch {
+    protected int h;
+    protected int m;
 
-    public HMWatchX(String name, double price) {
+    public HMWatch(String name, double price) {
         super(name, price);
         this.h = 0;
         this.m = 0;

@@ -1,8 +1,8 @@
 package Watches;
 
 public class HMWatch extends BaseWatch {
-    private int h;
-    private int m;
+    protected int h;
+    protected int m;
 
     public HMWatch(String name, double price) {
         super(name, price);
