@@ -6,7 +6,4 @@
     <groupId>com</groupId>
     <artifactId>01_watches</artifactId>
     <version>1.0</version>
-    <properties>
-        <src.dir>src</src.dir>
-    </properties>
 </project>

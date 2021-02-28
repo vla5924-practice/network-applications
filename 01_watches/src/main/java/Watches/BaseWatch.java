@@ -1,12 +1,12 @@
 package Watches;
 
 public abstract class BaseWatch {
-    private double price;
     private String name;
+    private double price;
 
-    public BaseWatch(double price_, String name_) {
-        this.price = price_;
-        this.name = name_;
+    public BaseWatch(String name, double price) {
+        this.price = price;
+        this.name = name;
     }
 
     public abstract void setTime(int h, int m, int s) throws Exception;

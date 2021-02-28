@@ -1,10 +1,10 @@
 package Watches;
 
 public class HMSWatch extends HMWatch {
-    protected int s;
+    private int s;
 
-    public HMSWatch(double price_, String name_) {
-        super(price_, name_);
+    public HMSWatch(String name, double price) {
+        super(name, price);
         this.s = 0;
     }
 
