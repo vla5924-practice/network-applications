@@ -1,7 +1,9 @@
 maven
-
+javafx-sdk-16
 .classpath
 .project
 .settings
 .vscode
 target
+out
+.idea

@@ -2,7 +2,10 @@ import WatchesAdvanced.*;
 
 public class Program {
     public static String glueTime(int[] time) {
-        return time[0] + ":" + time[1] + ":" + time[2];
+        String str = time[0] + ":" + time[1];
+        if (time.length > 2)
+            str += ":" + time[2];
+        return str;
     }
 
     public static void main(String[] args) {
