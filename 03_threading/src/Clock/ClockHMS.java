@@ -33,12 +33,12 @@ public class ClockHMS extends ClockHM {
             throw new IllegalArgumentException("Invalid seconds");
         int newSeconds = this.seconds + seconds;
         if (newSeconds >= 60) {
+            this.seconds = newSeconds % 60;
             this.addMinutes(newSeconds / 60);
-            this.seconds = seconds % 60 - 1;
         } else {
             this.seconds += seconds;
+            this.broadcast();
         }
-        this.broadcast();
     }
 
     @Override

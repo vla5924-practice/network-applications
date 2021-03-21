@@ -67,17 +67,30 @@ public class ClockHM implements IClock, IPublisher {
     }
 
     @Override
+    public void addHours(int hours) throws IllegalArgumentException {
+        if (hours < 0)
+            throw new IllegalArgumentException("Invalid hours");
+        int newHours = this.hours + hours;
+        if (newHours >= 12) {
+            this.hours = newHours % 12;
+        } else {
+            this.hours += hours;
+        }
+        this.broadcast();
+    }
+
+    @Override
     public void addMinutes(int minutes) throws IllegalArgumentException {
         if (minutes < 0)
             throw new IllegalArgumentException("Invalid minutes");
         int newMinutes = this.minutes + minutes;
         if (newMinutes >= 60) {
-            this.hours += newMinutes / 60;
-            this.minutes = minutes % 60 - 1;
+            this.minutes = newMinutes % 60;
+            this.addHours(newMinutes / 60);
         } else {
             this.minutes += minutes;
+            this.broadcast();
         }
-        this.broadcast();
     }
 
     @Override

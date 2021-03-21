@@ -23,7 +23,7 @@ public class AlarmHMS extends AlarmHM {
             throw new IllegalArgumentException("Unsupported event class");
         TimeUpdateEvent time = (TimeUpdateEvent)event;
         if (time.hours == this.hours && time.minutes == this.minutes && time.seconds == this.seconds) {
-            // Alarm!!!
+            slot.call();
         }
     }
 

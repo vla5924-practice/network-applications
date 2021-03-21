@@ -18,7 +18,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="0"/>
         </properties>
       </component>
       <component id="4600c" class="javax.swing.JLabel" binding="clock_m">
@@ -27,7 +27,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="0"/>
         </properties>
       </component>
       <component id="f1439" class="javax.swing.JLabel" binding="clock_s">
@@ -36,7 +36,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="0"/>
         </properties>
       </component>
       <component id="1ee33" class="javax.swing.JSpinner" binding="spinner_clock_h">
@@ -76,6 +76,70 @@
         </constraints>
         <properties>
           <text value="Set time"/>
+        </properties>
+      </component>
+      <component id="ed163" class="javax.swing.JSpinner" binding="spinner_alarm_h">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="d5bc3" class="javax.swing.JSpinner" binding="spinner_alarm_m">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="73df0" class="javax.swing.JSpinner" binding="spinner_alarm_s">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="8f45f" class="javax.swing.JButton" binding="button_alarm_add">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Add alarm"/>
+        </properties>
+      </component>
+      <scrollpane id="41d35">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="6d7d2" class="javax.swing.JList" binding="list_alarms">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="5ea50" class="javax.swing.JTextPane" binding="pane_alarm">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <editable value="false"/>
+        </properties>
+      </component>
+      <component id="69789" class="javax.swing.JButton" binding="button_clear">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Clear log"/>
         </properties>
       </component>
     </children>

@@ -1,12 +1,14 @@
 package Alarm;
 
 import Arch.AbstractEvent;
+import Arch.ICallable;
 import Arch.ISubscriber;
 import Clock.TimeUpdateEvent;
 
 import java.io.InvalidClassException;
 
 public class AlarmHM implements IAlarm, ISubscriber {
+    protected ICallable slot;
     protected int hours = 0;
     protected int minutes = 0;
 
@@ -24,8 +26,13 @@ public class AlarmHM implements IAlarm, ISubscriber {
             throw new IllegalArgumentException("Unsupported event class");
         TimeUpdateEvent time = (TimeUpdateEvent)event;
         if (time.hours == this.hours && time.minutes == this.minutes) {
-            // Alarm!!!
+            slot.call();
         }
+    }
+
+    @Override
+    public void setSlot(ICallable slot) {
+        this.slot = slot;
     }
 
     @Override
