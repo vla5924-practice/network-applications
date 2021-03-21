@@ -13,7 +13,7 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.util.Vector;
 
-public class MainWindow {
+public class ClockWindow {
     private JLabel clock_h;
     private JLabel clock_m;
     private JLabel clock_s;
@@ -36,7 +36,7 @@ public class MainWindow {
     private DefaultListModel model_alarms;
     private ICallable alarm_slot;
 
-    public MainWindow() {
+    public ClockWindow() {
         clock = BClock.build(ETimeholderType.HMS);
         alarms = new LinkedList<IAlarm>();
         model_alarms = new DefaultListModel();
