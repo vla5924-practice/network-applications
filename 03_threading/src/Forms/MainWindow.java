@@ -21,7 +21,7 @@ public class MainWindow {
             return;
         JFrame frame = new JFrame(name);
         frame.setContentPane(new ClockWindow().getPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         clock_frames.add(frame);
