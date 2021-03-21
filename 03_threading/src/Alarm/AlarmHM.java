@@ -46,4 +46,19 @@ public class AlarmHM implements IAlarm, ISubscriber {
     public void setSeconds(int seconds) throws NoSuchMethodException {
         throw new NoSuchMethodException("Not implemented");
     }
+
+    @Override
+    public int getHours() {
+        return this.hours;
+    }
+
+    @Override
+    public int getMinutes() {
+        return this.minutes;
+    }
+
+    @Override
+    public int getSeconds() throws NoSuchMethodException {
+        throw new NoSuchMethodException("Not implemented");
+    }
 }

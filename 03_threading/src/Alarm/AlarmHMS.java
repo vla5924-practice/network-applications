@@ -33,4 +33,9 @@ public class AlarmHMS extends AlarmHM {
             throw new IllegalArgumentException("Invalid seconds");
         this.seconds = seconds;
     }
+
+    @Override
+    public int getSeconds() {
+        return this.seconds;
+    }
 }

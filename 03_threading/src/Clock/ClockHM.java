@@ -52,12 +52,28 @@ public class ClockHM implements IClock, IPublisher {
     }
 
     @Override
+    public int getHours() {
+        return this.hours;
+    }
+
+    @Override
+    public int getMinutes() {
+        return this.minutes;
+    }
+
+    @Override
+    public int getSeconds() throws NoSuchMethodException {
+        throw new NoSuchMethodException("Not implemented");
+    }
+
+    @Override
     public void addMinutes(int minutes) throws IllegalArgumentException {
         if (minutes < 0)
             throw new IllegalArgumentException("Invalid minutes");
-        if (minutes >= 60) {
-            this.hours += minutes / 60;
-            this.minutes += minutes % 60;
+        int newMinutes = this.minutes + minutes;
+        if (newMinutes >= 60) {
+            this.hours += newMinutes / 60;
+            this.minutes = minutes % 60 - 1;
         } else {
             this.minutes += minutes;
         }
