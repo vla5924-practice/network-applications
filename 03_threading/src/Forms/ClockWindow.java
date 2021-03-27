@@ -2,10 +2,13 @@ package Forms;
 
 import Alarm.BAlarm;
 import Alarm.IAlarm;
+import Arch.AbstractEvent;
 import Arch.ICallable;
 import Arch.IPublisher;
 import Arch.ISubscriber;
 import Clock.BClock;
+import Clock.ClockController;
+import Clock.TimeUpdateEvent;
 import Timeholder.ETimeholderType;
 import Clock.IClock;
 
@@ -13,7 +16,7 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.util.Vector;
 
-public class ClockWindow {
+public class ClockWindow implements ISubscriber {
     private JLabel clock_h;
     private JLabel clock_m;
     private JLabel clock_s;
@@ -32,6 +35,7 @@ public class ClockWindow {
     private JButton button_clear;
 
     private IClock clock;
+    private ClockController controller;
     private LinkedList<IAlarm> alarms;
     private DefaultListModel model_alarms;
     private ICallable alarm_slot;
@@ -41,30 +45,36 @@ public class ClockWindow {
         alarms = new LinkedList<IAlarm>();
         model_alarms = new DefaultListModel();
         list_alarms.setModel(model_alarms);
-        alarm_slot = new ICallable() {
-            @Override
-            public void call() {
-                try {
-                    pane_alarm.setText("Alarm " + clock.getHours() + ":" + clock.getMinutes() + ":" + clock.getSeconds());
-                } catch (Exception e) {
-                }
+        alarm_slot = () -> {
+            try {
+                pane_alarm.setText("Alarm " + clock.getHours() + ":" + clock.getMinutes() + ":" + clock.getSeconds());
+            } catch (Exception e) {
             }
         };
 
+        IPublisher pub = (IPublisher)clock;
+        pub.addSubscriber(this);
+
+        controller = new ClockController(clock);
+
         button_clock_set_time.addActionListener(e -> setClockTime());
-        button_clock_start.addActionListener(e -> startClockTick());
+        button_clock_start.addActionListener(e -> controller.toggle());
         button_alarm_add.addActionListener(e -> addAlarm());
         button_clear.addActionListener(e -> clearLog());
     }
 
-    public void updateClock() {
-        clock_h.setText(String.valueOf(clock.getHours()));
-        clock_m.setText(String.valueOf(clock.getMinutes()));
-        try {
-            clock_s.setText(String.valueOf(clock.getSeconds()));
-        } catch (Exception e) {
+    @Override
+    public void signal(AbstractEvent event) throws IllegalArgumentException {
+        if(!event.getClass().isAssignableFrom(new TimeUpdateEvent().getClass()))
+            throw new IllegalArgumentException("Unsupported event class");
+        TimeUpdateEvent time = (TimeUpdateEvent)event;
+        clock_h.setText(String.valueOf(time.hours));
+        clock_m.setText(String.valueOf(time.minutes));
+        clock_s.setText(String.valueOf(time.seconds));
+    }
 
-        }
+    @Override
+    public void setSlot(ICallable slot) {
     }
 
     public void setClockTime() {
@@ -76,9 +86,7 @@ public class ClockWindow {
             clock.setMinutes(minutes);
             clock.setSeconds(seconds);
         } catch (Exception e) {
-
         }
-        updateClock();
     }
 
     public void addAlarm() {
@@ -91,7 +99,6 @@ public class ClockWindow {
             alarm.setMinutes(minutes);
             alarm.setSeconds(seconds);
         } catch (Exception e) {
-
         }
         alarms.add(alarm);
         IPublisher pub = (IPublisher)clock;
@@ -101,26 +108,8 @@ public class ClockWindow {
         model_alarms.addElement(hours + ":" + minutes + ":" + seconds);
     }
 
-    public void startClockTick() {
-        button_clock_start.setEnabled(false);
-        new Thread(() -> {
-            try {
-                while (true) {
-                    Thread.sleep(999);
-                    clock.addSeconds(1);
-                    updateClock();
-                }
-            } catch (Exception e) {
-            }
-        }).start();
-    }
-
     public void clearLog() {
         pane_alarm.setText("");
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 
     public JPanel getPanel() {
