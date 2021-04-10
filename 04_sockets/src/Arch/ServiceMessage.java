@@ -7,7 +7,12 @@ public class ServiceMessage {
         message = message_;
     }
 
-    String get() {
+    public String get() {
+        return message;
+    }
+
+    @Override
+    public String toString() {
         return message;
     }
 }

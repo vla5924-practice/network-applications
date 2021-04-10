@@ -1,9 +1,11 @@
 package Server;
 
 import Alarm.Alarm;
+import Arch.EventManager;
 import Arch.EventType;
 import Arch.Event;
 import Arch.ISubscriber;
+import Forms.ServerWindow;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -11,6 +13,8 @@ import java.io.*;
 import java.net.Socket;
 
 public class ServerController extends Thread implements ISubscriber {
+    protected EventManager eventManager = new EventManager();
+
     Socket csocket;
     ServerModel model;
 
@@ -21,7 +25,7 @@ public class ServerController extends Thread implements ISubscriber {
 
     Gson json = new GsonBuilder().setPrettyPrinting().create();
 
-    public ServerController(Socket csocket_, ServerModel model_) {
+    public ServerController(Socket csocket_, ServerModel model_, ServerWindow window) {
         csocket = csocket_;
         model = model_;
         try {
@@ -31,6 +35,7 @@ public class ServerController extends Thread implements ISubscriber {
             e.printStackTrace();
         }
         model.addSubscriber(this);
+        eventManager.addSubscriber(window);
         start();
         send(new Event("Runner started"));
     }
@@ -64,5 +69,6 @@ public class ServerController extends Thread implements ISubscriber {
     @Override
     public void signal(Event event) {
         send(event);
+        eventManager.broadcast(event);
     }
 }

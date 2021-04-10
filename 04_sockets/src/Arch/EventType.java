@@ -5,5 +5,7 @@ public enum EventType {
     ADD_ALARM_REQUEST,
     ALARM_WENT_OFF,
     SERVICE_MESSAGE,
-    CLOCK_UPDATED
+    CLOCK_UPDATED,
+    CLOCK_SYNC,
+    CLOCK_TOGGLE
 }
