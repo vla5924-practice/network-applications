@@ -51,6 +51,16 @@ public class ServerModel implements ISubscriber {
             clockController.toggle();
             return;
         }
+        if (event.type == EventType.CLOCK_UPDATE_REQUEST) {
+            int[] arr = (int[])event.object;
+            clock.setHours(arr[0]);
+            clock.setMinutes(arr[1]);
+            try {
+                clock.setSeconds(arr[2]);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void addClockSubscriber(ISubscriber subscriber) {

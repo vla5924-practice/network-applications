@@ -13,8 +13,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Server {
-    protected EventManager eventManager = new EventManager();
-
     int port = 5924;
     InetAddress host = null;
 
@@ -38,17 +36,13 @@ public class Server {
             while (true) {
                 Socket csocket = ssocket.accept();
                 nofClients++;
-                System.out.println("Client connected");
+                System.out.println("Client connected #" + nofClients);
 
                 ServerController controller = new ServerController(csocket, model, window);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void addSubscriber(ISubscriber subscriber) {
-        eventManager.addSubscriber(subscriber);
     }
 
     public void addWindow(ServerWindow window_) {

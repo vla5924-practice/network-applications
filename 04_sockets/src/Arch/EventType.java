@@ -7,5 +7,6 @@ public enum EventType {
     SERVICE_MESSAGE,
     CLOCK_UPDATED,
     CLOCK_SYNC,
-    CLOCK_TOGGLE
+    CLOCK_TOGGLE,
+    CLOCK_UPDATE_REQUEST,
 }
