@@ -7,3 +7,4 @@ javafx-sdk-16
 target
 out
 .idea
+*.jar
