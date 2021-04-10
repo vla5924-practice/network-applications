@@ -1,5 +1,6 @@
 package Alarm;
 
+import Clock.Clock;
 import Timeholders.IClock;
 
 public class AlarmHM extends Alarm {
@@ -49,7 +50,7 @@ public class AlarmHM extends Alarm {
     }
 
     @Override
-    protected boolean isSameTime(IClock clock) {
+    protected boolean isSameTime(Clock clock) {
         return hours == clock.getHours() && minutes == clock.getMinutes();
     }
 }

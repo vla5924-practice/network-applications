@@ -1,6 +1,5 @@
 package Alarm;
 
-import Timeholders.IAlarm;
 import Timeholders.TimeholderType;
 
 public class BAlarm {

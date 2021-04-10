@@ -4,8 +4,8 @@ import Arch.Event;
 import Arch.EventManager;
 import Arch.EventType;
 import Arch.ISubscriber;
+import Clock.Clock;
 import Timeholders.IAlarm;
-import Timeholders.IClock;
 
 public abstract class Alarm implements IAlarm, ISubscriber {
     protected EventManager eventManager = new EventManager();
@@ -14,12 +14,13 @@ public abstract class Alarm implements IAlarm, ISubscriber {
         eventManager.addSubscriber(subscriber);
     }
 
-    protected abstract boolean isSameTime(IClock clock);
+    protected abstract boolean isSameTime(Clock clock);
+
     @Override
     public void signal(Event event) {
         if (event.type != EventType.CLOCK_UPDATED)
             return;
-        IClock clock = (IClock)event.object;
+        Clock clock = (Clock)event.object;
         if (isSameTime(clock)) {
             eventManager.broadcast(new Event(EventType.ALARM_WENT_OFF, this));
         }

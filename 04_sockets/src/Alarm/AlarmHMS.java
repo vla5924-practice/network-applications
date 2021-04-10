@@ -1,5 +1,6 @@
 package Alarm;
 
+import Clock.Clock;
 import Timeholders.IClock;
 
 public class AlarmHMS extends AlarmHM {
@@ -27,7 +28,7 @@ public class AlarmHMS extends AlarmHM {
     }
 
     @Override
-    protected boolean isSameTime(IClock clock) {
+    protected boolean isSameTime(Clock clock) {
         int clockSeconds = 0;
         try {
             clockSeconds = clock.getSeconds();

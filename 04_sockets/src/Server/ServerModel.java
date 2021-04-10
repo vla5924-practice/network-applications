@@ -4,7 +4,6 @@ import Alarm.Alarm;
 import Arch.EventManager;
 import Arch.EventType;
 import Clock.Clock;
-import Timeholders.IAlarm;
 import Arch.Event;
 import Arch.ISubscriber;
 
