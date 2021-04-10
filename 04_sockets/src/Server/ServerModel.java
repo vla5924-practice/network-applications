@@ -52,11 +52,11 @@ public class ServerModel implements ISubscriber {
             return;
         }
         if (event.type == EventType.CLOCK_UPDATE_REQUEST) {
-            int[] arr = (int[])event.object;
-            clock.setHours(arr[0]);
-            clock.setMinutes(arr[1]);
+            Clock clock_ = event.clock;
+            clock.setHours(clock_.getHours());
+            clock.setMinutes(clock_.getMinutes());
             try {
-                clock.setSeconds(arr[2]);
+                clock.setSeconds(clock_.getSeconds());
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }

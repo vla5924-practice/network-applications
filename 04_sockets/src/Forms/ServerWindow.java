@@ -2,7 +2,7 @@ package Forms;
 
 import Alarm.Alarm;
 import Arch.*;
-import Clock.Clock;
+import Clock.*;
 import Server.Server;
 
 import javax.swing.*;
@@ -30,7 +30,7 @@ public class ServerWindow implements ISubscriber {
         server = server_;
         model_alarms = new DefaultListModel();
         alarms.setModel(model_alarms);
-
+        log.setEnabled(false);
         toggle.addActionListener(e -> onToggleClick());
         set.addActionListener(e -> onSetTimeClick());
     }
@@ -53,7 +53,11 @@ public class ServerWindow implements ISubscriber {
         int hours = (int)hr_s.getValue();
         int minutes = (int)min_s.getValue();
         int seconds = (int)sec_s.getValue();
-        eventManager.broadcast(new Event(EventType.CLOCK_UPDATE_REQUEST, new int[]{hours, minutes, seconds}));
+        ClockHMS clock = new ClockHMS();
+        clock.setHours(hours);
+        clock.setMinutes(minutes);
+        clock.setSeconds(seconds);
+        eventManager.broadcast(new Event(EventType.CLOCK_UPDATE_REQUEST, clock));
     }
 
     public void addSubscriber(ISubscriber subscriber) {
@@ -63,7 +67,7 @@ public class ServerWindow implements ISubscriber {
     @Override
     public void signal(Event event) {
         if (event.type == EventType.CLOCK_UPDATED) {
-            Clock clock = (Clock)event.object;
+            Clock clock = event.clock;
             int seconds = 0;
             try {
                 seconds = clock.getSeconds();
@@ -76,7 +80,7 @@ public class ServerWindow implements ISubscriber {
             return;
         }
         if (event.type == EventType.ALARM_ADDED) {
-            Alarm alarm = (Alarm)event.object;
+            Alarm alarm = event.alarm;
             int seconds = 0;
             try {
                 seconds = alarm.getSeconds();
@@ -87,8 +91,7 @@ public class ServerWindow implements ISubscriber {
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {
-            ServiceMessage message = (ServiceMessage)event.object;
-            addLog(message.get());
+            addLog(event.message);
             return;
         }
         System.out.println("Unsupported event");

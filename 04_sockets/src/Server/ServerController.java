@@ -1,10 +1,7 @@
 package Server;
 
 import Alarm.Alarm;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.Event;
-import Arch.ISubscriber;
+import Arch.*;
 import Forms.ServerWindow;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,8 +20,6 @@ public class ServerController extends Thread implements ISubscriber {
     DataInputStream distream;
     DataOutputStream dostream;
 
-    Gson json = new GsonBuilder().setPrettyPrinting().create();
-
     public ServerController(Socket csocket_, ServerModel model_, ServerWindow window) {
         csocket = csocket_;
         model = model_;
@@ -41,7 +36,7 @@ public class ServerController extends Thread implements ISubscriber {
     }
 
     public void send(Event event) {
-        String data = json.toJson(event);
+        String data = JSON.get().toJson(event);
         try {
             dostream.writeUTF(data);
         } catch (IOException e) {
@@ -56,9 +51,10 @@ public class ServerController extends Thread implements ISubscriber {
             distream = new DataInputStream(istream);
             do {
                 String data = distream.readUTF();
-                Event event = json.fromJson(data, Event.class);
+                System.out.println(data);
+                Event event = JSON.get().fromJson(data, Event.class);
                 if (event.type == EventType.ALARM_ADD_REQUEST) {
-                    model.addAlarm((Alarm)event.object);
+                    model.addAlarm(event.alarm);
                 }
             } while (true);
         } catch (IOException e) {

@@ -27,6 +27,7 @@ public class ClientWindow implements ISubscriber {
     public ClientWindow() {
         model_alarms = new DefaultListModel();
         alarms.setModel(model_alarms);
+        log.setEnabled(false);
         connect.addActionListener(e -> onConnectClick());
         add.addActionListener(e -> onAddAlarmClick());
     }
@@ -63,7 +64,7 @@ public class ClientWindow implements ISubscriber {
     @Override
     public void signal(Event event) {
         if (event.type == EventType.CLOCK_SYNC) {
-            Clock clock = (Clock)event.object;
+            Clock clock = event.clock;
             int seconds = 0;
             try {
                 seconds = clock.getSeconds();
@@ -76,7 +77,7 @@ public class ClientWindow implements ISubscriber {
             return;
         }
         if (event.type == EventType.ALARM_ADDED) {
-            Alarm alarm = (Alarm)event.object;
+            Alarm alarm = event.alarm;
             int seconds = 0;
             try {
                 seconds = alarm.getSeconds();
@@ -87,8 +88,7 @@ public class ClientWindow implements ISubscriber {
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {
-            ServiceMessage message = (ServiceMessage)event.object;
-            addLog(message.get());
+            addLog(event.message);
             return;
         }
         System.out.println("Unsupported event");

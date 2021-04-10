@@ -1,13 +1,10 @@
 package Client;
 
 import Alarm.Alarm;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.ISubscriber;
+import Arch.*;
 import Clock.ClockController;
 import Clock.Clock;
 import Server.ServerModel;
-import Arch.Event;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -35,14 +32,11 @@ public class ClientController implements ISubscriber {
     Clock clock;
     ClockController clockController;
 
-    Gson json = new GsonBuilder().setPrettyPrinting().create();
-
     public ClientController() {
     }
 
     public synchronized void onAlarmAdded(Event event) {
-        Alarm alarm = (Alarm)event.object;
-        System.out.println("Alarm added: " + alarm.getHours() + " " + alarm.getMinutes());
+        eventManager.broadcast(event);
     }
 
     public void addAlarm(Alarm alarm) {
@@ -52,7 +46,8 @@ public class ClientController implements ISubscriber {
     public void send(Event event) {
         if (thread == null)
             return;
-        String data = json.toJson(event);
+        String data = JSON.get().toJson(event);
+        System.out.println(data);
         try {
             dostream.writeUTF(data);
         } catch (IOException e) {
@@ -79,7 +74,7 @@ public class ClientController implements ISubscriber {
                     distream = new DataInputStream(istream);
                     while (true) {
                         String data = distream.readUTF();
-                        Event event = json.fromJson(data, Event.class);
+                        Event event = JSON.get().fromJson(data, Event.class);
                         if (event.type == EventType.ALARM_ADDED) {
                             onAlarmAdded(event);
                         } else {
@@ -101,6 +96,10 @@ public class ClientController implements ISubscriber {
     public void signal(Event event) {
         if (event.type == EventType.CLIENT_CONNECT_REQUEST) {
             connect();
+            return;
+        }
+        if (event.type == EventType.ALARM_ADD_REQUEST) {
+            send(event);
             return;
         }
     }

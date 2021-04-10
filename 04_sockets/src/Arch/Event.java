@@ -1,21 +1,31 @@
 package Arch;
 
+import Alarm.Alarm;
+import Clock.Clock;
+
 public class Event {
     public EventType type;
-    public Object object;
 
-    public Event(EventType type_, Object object_) {
+    public String message = null;
+    public Clock clock = null;
+    public Alarm alarm = null;
+
+    public Event(EventType type_, Clock clock_) {
         type = type_;
-        object = object_;
+        clock = clock_;
+    }
+
+    public Event(EventType type_, Alarm alarm_) {
+        type = type_;
+        alarm = alarm_;
     }
 
     public Event(EventType type_) {
         type = type_;
-        object = null;
     }
 
-    public Event(String message) {
+    public Event(String message_) {
         type = EventType.SERVICE_MESSAGE;
-        object = new ServiceMessage(message);
+        message = message_;
     }
 }

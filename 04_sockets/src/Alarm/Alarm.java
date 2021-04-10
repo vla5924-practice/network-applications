@@ -18,11 +18,12 @@ public abstract class Alarm implements IAlarm, ISubscriber {
 
     @Override
     public void signal(Event event) {
-        if (event.type != EventType.CLOCK_UPDATED)
+        if (event.type == EventType.CLOCK_UPDATED) {
+            Clock clock = event.clock;
+            if (isSameTime(clock)) {
+                eventManager.broadcast(new Event(EventType.ALARM_WENT_OFF, this));
+            }
             return;
-        Clock clock = (Clock)event.object;
-        if (isSameTime(clock)) {
-            eventManager.broadcast(new Event(EventType.ALARM_WENT_OFF, this));
         }
     }
 }
