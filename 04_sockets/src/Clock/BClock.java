@@ -1,6 +1,5 @@
 package Clock;
 
-import Timeholders.IClock;
 import Timeholders.TimeholderType;
 
 public class BClock {

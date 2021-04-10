@@ -3,7 +3,7 @@ package Clock;
 import Arch.Event;
 import Arch.EventManager;
 import Arch.EventType;
-import Arch.ISubscriber;
+import Arch.EventListener;
 import Timeholders.IClock;
 
 public abstract class Clock implements IClock {
@@ -13,7 +13,7 @@ public abstract class Clock implements IClock {
         eventManager.broadcast(new Event(EventType.CLOCK_UPDATED, this));
     }
 
-    public void addSubscriber(ISubscriber subscriber) {
+    public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
     }
 }

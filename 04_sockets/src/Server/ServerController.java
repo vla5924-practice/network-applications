@@ -1,17 +1,19 @@
 package Server;
 
-import Alarm.Alarm;
-import Arch.*;
+import Arch.Event;
+import Arch.EventManager;
+import Arch.EventType;
+import Arch.EventListener;
+import Arch.JSON;
 import Forms.ServerWindow;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ServerController extends Thread implements ISubscriber {
+public class ServerController extends Thread implements EventListener {
     protected EventManager eventManager = new EventManager();
 
+    int id;
     Socket csocket;
     ServerModel model;
 
@@ -20,7 +22,8 @@ public class ServerController extends Thread implements ISubscriber {
     DataInputStream distream;
     DataOutputStream dostream;
 
-    public ServerController(Socket csocket_, ServerModel model_, ServerWindow window) {
+    public ServerController(int id_, Socket csocket_, ServerModel model_, ServerWindow window) {
+        id = id_;
         csocket = csocket_;
         model = model_;
         try {
@@ -32,7 +35,7 @@ public class ServerController extends Thread implements ISubscriber {
         model.addSubscriber(this);
         eventManager.addSubscriber(window);
         start();
-        send(new Event("Server controller started"));
+        eventManager.broadcast(new Event("Client #" + id + " connected"));
         send(new Event(EventType.CLOCK_SYNC, model.getClock()));
     }
 

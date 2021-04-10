@@ -2,12 +2,15 @@ package Forms;
 
 import Alarm.Alarm;
 import Alarm.AlarmHMS;
-import Arch.*;
+import Arch.Event;
+import Arch.EventManager;
+import Arch.EventType;
+import Arch.EventListener;
 import Clock.Clock;
 
 import javax.swing.*;
 
-public class ClientWindow implements ISubscriber {
+public class ClientWindow implements EventListener {
     protected EventManager eventManager = new EventManager();
 
     private JPanel panel;
@@ -38,7 +41,7 @@ public class ClientWindow implements ISubscriber {
         return panel;
     }
 
-    public void addSubscriber(ISubscriber subscriber) {
+    public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
     }
 

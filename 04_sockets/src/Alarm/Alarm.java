@@ -3,14 +3,14 @@ package Alarm;
 import Arch.Event;
 import Arch.EventManager;
 import Arch.EventType;
-import Arch.ISubscriber;
+import Arch.EventListener;
 import Clock.Clock;
 import Timeholders.IAlarm;
 
-public abstract class Alarm implements IAlarm, ISubscriber {
+public abstract class Alarm implements IAlarm, EventListener {
     protected EventManager eventManager = new EventManager();
 
-    public void addSubscriber(ISubscriber subscriber) {
+    public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
     }
 

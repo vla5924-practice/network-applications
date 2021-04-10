@@ -1,7 +1,6 @@
 package Alarm;
 
 import Clock.Clock;
-import Timeholders.IClock;
 
 public class AlarmHMS extends AlarmHM {
     protected int seconds = 0;

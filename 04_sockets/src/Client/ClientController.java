@@ -1,7 +1,10 @@
 package Client;
 
-import Alarm.Alarm;
-import Arch.*;
+import Arch.Event;
+import Arch.EventManager;
+import Arch.EventType;
+import Arch.EventListener;
+import Arch.JSON;
 import Clock.ClockController;
 import Clock.Clock;
 import Server.ServerModel;
@@ -11,7 +14,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ClientController implements ISubscriber {
+public class ClientController implements EventListener {
     protected EventManager eventManager = new EventManager();
 
     int port = 5924;
@@ -125,7 +128,7 @@ public class ClientController implements ISubscriber {
         System.out.println("[Client controller signal] Unsupported event: " + event.type);
     }
 
-    public void addSubscriber(ISubscriber subscriber) {
+    public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
     }
 }

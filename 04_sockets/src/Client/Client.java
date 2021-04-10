@@ -1,8 +1,6 @@
 package Client;
 
 import Forms.ClientWindow;
-import Forms.ServerWindow;
-import Server.Server;
 
 import javax.swing.*;
 

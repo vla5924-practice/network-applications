@@ -7,7 +7,7 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
-public class EventSerializer implements JsonSerializer<Event> {
+class EventSerializer implements JsonSerializer<Event> {
     @Override
     public JsonElement serialize(Event event, Type type, JsonSerializationContext context) {
         JsonObject result = new JsonObject();

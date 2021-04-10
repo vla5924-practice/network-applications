@@ -3,21 +3,21 @@ package Arch;
 import java.util.LinkedList;
 
 public class EventManager {
-    LinkedList<ISubscriber> subscribers = new LinkedList<>();
+    LinkedList<EventListener> subscribers = new LinkedList<>();
 
     public EventManager() {
     }
 
-    public void addSubscriber(ISubscriber subscriber) {
+    public void addSubscriber(EventListener subscriber) {
         subscribers.add(subscriber);
     }
 
-    public void removeSubscriber(ISubscriber subscriber) {
+    public void removeSubscriber(EventListener subscriber) {
         subscribers.remove(subscriber);
     }
 
     public void broadcast(Event event) {
-        for (ISubscriber subscriber: subscribers) {
+        for (EventListener subscriber: subscribers) {
             subscriber.signal(event);
         }
     }

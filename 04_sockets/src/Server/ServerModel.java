@@ -1,18 +1,18 @@
 package Server;
 
 import Alarm.Alarm;
+import Arch.Event;
 import Arch.EventManager;
 import Arch.EventType;
+import Arch.EventListener;
 import Clock.BClock;
-import Clock.ClockController;
 import Clock.Clock;
-import Arch.Event;
-import Arch.ISubscriber;
+import Clock.ClockController;
 import Timeholders.TimeholderType;
 
 import java.util.LinkedList;
 
-public class ServerModel implements ISubscriber {
+public class ServerModel implements EventListener {
     private EventManager eventManager = new EventManager();
 
     private Clock clock = BClock.build(TimeholderType.HMS);
@@ -22,7 +22,7 @@ public class ServerModel implements ISubscriber {
     public ServerModel() {
     }
 
-    public void addSubscriber(ISubscriber subscriber) {
+    public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
     }
 
@@ -64,7 +64,7 @@ public class ServerModel implements ISubscriber {
         System.out.println("[Server model signal] Unsupported event: " + event.type);
     }
 
-    public void addClockSubscriber(ISubscriber subscriber) {
+    public void addClockSubscriber(EventListener subscriber) {
         clock.addSubscriber(subscriber);
     }
 }

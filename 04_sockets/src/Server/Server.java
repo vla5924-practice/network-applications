@@ -27,15 +27,12 @@ public class Server {
 
     public void start() {
         try {
-            ServerSocket ssocket = null;
-            ssocket = new ServerSocket(port, 0, host);
+            ServerSocket ssocket = new ServerSocket(port, 0, host);
             System.out.println("Server started");
             while (true) {
                 Socket csocket = ssocket.accept();
                 nofClients++;
-                System.out.println("Client connected #" + nofClients);
-
-                ServerController controller = new ServerController(csocket, model, window);
+                new ServerController(nofClients, csocket, model, window);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,13 +1,17 @@
 package Forms;
 
 import Alarm.Alarm;
-import Arch.*;
-import Clock.*;
+import Arch.Event;
+import Arch.EventManager;
+import Arch.EventType;
+import Arch.EventListener;
+import Clock.Clock;
+import Clock.ClockHMS;
 import Server.Server;
 
 import javax.swing.*;
 
-public class ServerWindow implements ISubscriber {
+public class ServerWindow implements EventListener {
     protected EventManager eventManager = new EventManager();
 
     private JPanel panel;
@@ -60,7 +64,7 @@ public class ServerWindow implements ISubscriber {
         eventManager.broadcast(new Event(EventType.CLOCK_UPDATE_REQUEST, clock));
     }
 
-    public void addSubscriber(ISubscriber subscriber) {
+    public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
     }
 

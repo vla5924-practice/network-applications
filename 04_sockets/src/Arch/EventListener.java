@@ -1,5 +1,5 @@
 package Arch;
 
-public interface ISubscriber {
+public interface EventListener {
     void signal(Event event);
 }
