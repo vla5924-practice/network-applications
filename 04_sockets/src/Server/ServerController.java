@@ -37,7 +37,7 @@ public class ServerController extends Thread implements ISubscriber {
         model.addSubscriber(this);
         eventManager.addSubscriber(window);
         start();
-        send(new Event("Runner started"));
+        send(new Event("Server controller started"));
     }
 
     public void send(Event event) {
@@ -57,7 +57,7 @@ public class ServerController extends Thread implements ISubscriber {
             do {
                 String data = distream.readUTF();
                 Event event = json.fromJson(data, Event.class);
-                if (event.type == EventType.ADD_ALARM_REQUEST) {
+                if (event.type == EventType.ALARM_ADD_REQUEST) {
                     model.addAlarm((Alarm)event.object);
                 }
             } while (true);

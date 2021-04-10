@@ -55,7 +55,7 @@ public class Server {
         Server server = new Server();
         ServerWindow window = new ServerWindow(server);
         server.addWindow(window);
-        JFrame frame = new JFrame("Server control panel");
+        JFrame frame = new JFrame("Server");
         frame.setContentPane(window.getPanel());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

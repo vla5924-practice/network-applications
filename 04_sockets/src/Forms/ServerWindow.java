@@ -32,7 +32,7 @@ public class ServerWindow implements ISubscriber {
         alarms.setModel(model_alarms);
 
         toggle.addActionListener(e -> onToggleClick());
-        set.addActionListener(e -> onSetTime());
+        set.addActionListener(e -> onSetTimeClick());
     }
 
     public JPanel getPanel() {
@@ -46,10 +46,10 @@ public class ServerWindow implements ISubscriber {
     }
 
     protected void onToggleClick() {
-        eventManager.broadcast(new Event(EventType.CLOCK_TOGGLE, null));
+        eventManager.broadcast(new Event(EventType.CLOCK_TOGGLE));
     }
 
-    protected void onSetTime() {
+    protected void onSetTimeClick() {
         int hours = (int)hr_s.getValue();
         int minutes = (int)min_s.getValue();
         int seconds = (int)sec_s.getValue();

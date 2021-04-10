@@ -9,6 +9,11 @@ public class Event {
         object = object_;
     }
 
+    public Event(EventType type_) {
+        type = type_;
+        object = null;
+    }
+
     public Event(String message) {
         type = EventType.SERVICE_MESSAGE;
         object = new ServiceMessage(message);

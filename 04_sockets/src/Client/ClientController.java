@@ -1,7 +1,11 @@
 package Client;
 
 import Alarm.Alarm;
+import Arch.EventManager;
 import Arch.EventType;
+import Arch.ISubscriber;
+import Clock.ClockController;
+import Clock.Clock;
 import Server.ServerModel;
 import Arch.Event;
 import com.google.gson.Gson;
@@ -12,7 +16,9 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ClientController {
+public class ClientController implements ISubscriber {
+    protected EventManager eventManager = new EventManager();
+
     int port = 5924;
     InetAddress host = null;
 
@@ -26,6 +32,9 @@ public class ClientController {
 
     Thread thread;
 
+    Clock clock;
+    ClockController clockController;
+
     Gson json = new GsonBuilder().setPrettyPrinting().create();
 
     public ClientController() {
@@ -37,7 +46,7 @@ public class ClientController {
     }
 
     public void addAlarm(Alarm alarm) {
-        send(new Event(EventType.ADD_ALARM_REQUEST, alarm));
+        send(new Event(EventType.ALARM_ADD_REQUEST, alarm));
     }
 
     public void send(Event event) {
@@ -86,6 +95,17 @@ public class ClientController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public void signal(Event event) {
+        if (event.type == EventType.CLIENT_CONNECT_REQUEST) {
+            connect();
+            return;
+        }
+    }
+
+    public void addSubscriber(ISubscriber subscriber) {
+        eventManager.addSubscriber(subscriber);
     }
 }
