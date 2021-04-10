@@ -52,7 +52,6 @@ public class ServerController extends Thread implements ISubscriber {
             distream = new DataInputStream(istream);
             do {
                 String data = distream.readUTF();
-                System.out.println(data);
                 Event event = JSON.get().fromJson(data, Event.class);
                 if (event.type == EventType.ALARM_ADD_REQUEST) {
                     model.addAlarm(event.alarm);

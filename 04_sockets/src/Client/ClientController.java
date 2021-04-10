@@ -41,10 +41,15 @@ public class ClientController implements ISubscriber {
         eventManager.broadcast(event);
     }
 
-    public void onClockUpdated(Event event) {
+    public void onServiceMessage(Event event) {
+        eventManager.broadcast(event);
+    }
+
+    public void onClockSync(Event event) {
         if (clockController != null)
             clockController.stop();
         clock = event.clock;
+        clock.addSubscriber(this);
         clockController = new ClockController(clock);
         clockController.start();
         eventManager.broadcast(event);
@@ -54,7 +59,6 @@ public class ClientController implements ISubscriber {
         if (thread == null)
             return;
         String data = JSON.get().toJson(event);
-        System.out.println(data);
         try {
             dostream.writeUTF(data);
         } catch (IOException e) {
@@ -84,10 +88,12 @@ public class ClientController implements ISubscriber {
                         Event event = JSON.get().fromJson(data, Event.class);
                         if (event.type == EventType.ALARM_ADDED) {
                             onAlarmAdded(event);
-                        } else if (event.type == EventType.CLOCK_UPDATED || event.type == EventType.CLOCK_SYNC) {
-                            onClockUpdated(event);
+                        } else if (event.type == EventType.CLOCK_SYNC) {
+                            onClockSync(event);
                         } else if (event.type == EventType.ALARM_WENT_OFF) {
                             onAlarmWentOff(event);
+                        } else if (event.type == EventType.SERVICE_MESSAGE) {
+                            onServiceMessage(event);
                         } else {
                             System.out.println("[Client controller connect] Unsupported event: " + event.type);
                         }
@@ -110,6 +116,10 @@ public class ClientController implements ISubscriber {
         }
         if (event.type == EventType.ALARM_ADD_REQUEST) {
             send(event);
+            return;
+        }
+        if (event.type == EventType.CLOCK_UPDATED) {
+            eventManager.broadcast(event);
             return;
         }
         System.out.println("[Client controller signal] Unsupported event: " + event.type);

@@ -59,6 +59,7 @@ public class ServerModel implements ISubscriber {
                 clock.setSeconds(clock_.getSeconds());
             } catch (NoSuchMethodException e) {
             }
+            eventManager.broadcast(new Event(EventType.CLOCK_SYNC, clock));
         }
         System.out.println("[Server model signal] Unsupported event: " + event.type);
     }
