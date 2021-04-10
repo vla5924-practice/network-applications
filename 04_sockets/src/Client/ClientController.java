@@ -46,6 +46,7 @@ public class ClientController implements ISubscriber {
             clockController.stop();
         clock = event.clock;
         clockController = new ClockController(clock);
+        clockController.start();
         eventManager.broadcast(event);
     }
 
@@ -88,12 +89,11 @@ public class ClientController implements ISubscriber {
                         } else if (event.type == EventType.ALARM_WENT_OFF) {
                             onAlarmWentOff(event);
                         } else {
-                            System.out.println("Unknown event: " + data);
+                            System.out.println("[Client controller connect] Unsupported event: " + event.type);
                         }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return;
                 }
             });
             thread.start();
@@ -112,6 +112,7 @@ public class ClientController implements ISubscriber {
             send(event);
             return;
         }
+        System.out.println("[Client controller signal] Unsupported event: " + event.type);
     }
 
     public void addSubscriber(ISubscriber subscriber) {

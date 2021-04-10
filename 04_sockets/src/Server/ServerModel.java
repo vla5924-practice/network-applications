@@ -37,10 +37,6 @@ public class ServerModel implements ISubscriber {
         return alarms;
     }
 
-    public Alarm getLastAlarm() {
-        return alarms.getLast();
-    }
-
     public Clock getClock() {
         return clock;
     }
@@ -64,6 +60,7 @@ public class ServerModel implements ISubscriber {
             } catch (NoSuchMethodException e) {
             }
         }
+        System.out.println("[Server model signal] Unsupported event: " + event.type);
     }
 
     public void addClockSubscriber(ISubscriber subscriber) {

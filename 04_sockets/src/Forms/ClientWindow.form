@@ -87,24 +87,34 @@
           <text value="Add alarm"/>
         </properties>
       </component>
-      <component id="b827e" class="javax.swing.JList" binding="alarms">
+      <scrollpane id="79f04">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
+          <grid row="4" column="0" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <forms defaultalign-vert="false"/>
         </constraints>
         <properties/>
-      </component>
-      <component id="198ab" class="javax.swing.JTextPane" binding="log">
+        <border type="none"/>
+        <children>
+          <component id="b827e" class="javax.swing.JList" binding="alarms">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <scrollpane id="14b43">
         <constraints>
-          <grid row="6" column="0" row-span="1" col-span="7" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+          <grid row="6" column="0" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
         </constraints>
         <properties/>
-      </component>
+        <border type="none"/>
+        <children>
+          <component id="f455d" class="javax.swing.JList" binding="log">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>

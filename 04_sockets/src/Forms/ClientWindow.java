@@ -16,18 +16,20 @@ public class ClientWindow implements ISubscriber {
     private JSpinner sec_s;
     private JButton connect;
     private JButton add;
-    private JList alarms;
-    private JTextPane log;
+    private JList<String> alarms;
+    private JList<String> log;
     private JLabel hr;
     private JLabel min;
     private JLabel sec;
 
-    private DefaultListModel model_alarms;
+    private DefaultListModel<String> model_alarms;
+    private DefaultListModel<String> model_log;
 
     public ClientWindow() {
-        model_alarms = new DefaultListModel();
+        model_alarms = new DefaultListModel<>();
         alarms.setModel(model_alarms);
-        log.setEnabled(false);
+        model_log = new DefaultListModel<>();
+        log.setModel(model_log);
         connect.addActionListener(e -> onConnectClick());
         add.addActionListener(e -> onAddAlarmClick());
     }
@@ -41,9 +43,7 @@ public class ClientWindow implements ISubscriber {
     }
 
     protected void addLog(String message) {
-        String full = log.getText();
-        full += message + "\n";
-        log.setText(full);
+        model_log.addElement(message);
     }
 
     protected void onConnectClick() {
@@ -87,10 +87,20 @@ public class ClientWindow implements ISubscriber {
             model_alarms.addElement(alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
             return;
         }
+        if (event.type == EventType.ALARM_WENT_OFF) {
+            Alarm alarm = event.alarm;
+            int seconds = 0;
+            try {
+                seconds = alarm.getSeconds();
+            } catch (NoSuchMethodException e) {
+            }
+            addLog("Alarm went off: "  + alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
+            return;
+        }
         if (event.type == EventType.SERVICE_MESSAGE) {
             addLog(event.message);
             return;
         }
-        System.out.println("Unsupported event");
+        System.out.println("[Client window signal] Unsupported event: " + event.type);
     }
 }

@@ -20,9 +20,10 @@ public class ServerWindow implements ISubscriber {
     private JLabel hr;
     private JLabel min;
     private JLabel sec;
-    private JTextPane log;
+    private JList<String> log;
 
-    private final DefaultListModel<String> model_alarms;
+    private DefaultListModel<String> model_alarms;
+    private DefaultListModel<String> model_log;
 
     Server server;
 
@@ -30,7 +31,8 @@ public class ServerWindow implements ISubscriber {
         server = server_;
         model_alarms = new DefaultListModel<>();
         alarms.setModel(model_alarms);
-        log.setEnabled(false);
+        model_log = new DefaultListModel<>();
+        log.setModel(model_log);
         toggle.addActionListener(e -> onToggleClick());
         set.addActionListener(e -> onSetTimeClick());
     }
@@ -40,9 +42,7 @@ public class ServerWindow implements ISubscriber {
     }
 
     protected void addLog(String message) {
-        String full = log.getText();
-        full += message + "\n";
-        log.setText(full);
+        model_log.addElement(message);
     }
 
     protected void onToggleClick() {
@@ -102,6 +102,6 @@ public class ServerWindow implements ISubscriber {
             addLog(event.message);
             return;
         }
-        System.out.println("Unsupported event");
+        System.out.println("[Server window signal] Unsupported event: " + event.type);
     }
 }
