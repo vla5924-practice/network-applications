@@ -63,7 +63,7 @@ public class ClientWindow implements ISubscriber {
 
     @Override
     public void signal(Event event) {
-        if (event.type == EventType.CLOCK_SYNC) {
+        if (event.type == EventType.CLOCK_SYNC || event.type == EventType.CLOCK_UPDATED) {
             Clock clock = event.clock;
             int seconds = 0;
             try {

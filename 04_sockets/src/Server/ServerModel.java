@@ -13,11 +13,11 @@ import Timeholders.TimeholderType;
 import java.util.LinkedList;
 
 public class ServerModel implements ISubscriber {
-    protected EventManager eventManager = new EventManager();
+    private EventManager eventManager = new EventManager();
 
-    Clock clock = BClock.build(TimeholderType.HMS);
-    ClockController clockController = new ClockController(clock);
-    LinkedList<Alarm> alarms = new LinkedList<>();
+    private Clock clock = BClock.build(TimeholderType.HMS);
+    private ClockController clockController = new ClockController(clock);
+    private LinkedList<Alarm> alarms = new LinkedList<>();
 
     public ServerModel() {
     }
@@ -41,6 +41,10 @@ public class ServerModel implements ISubscriber {
         return alarms.getLast();
     }
 
+    public Clock getClock() {
+        return clock;
+    }
+
     @Override
     public void signal(Event event) {
         if (event.type == EventType.ALARM_WENT_OFF) {
@@ -58,7 +62,6 @@ public class ServerModel implements ISubscriber {
             try {
                 clock.setSeconds(clock_.getSeconds());
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
             }
         }
     }

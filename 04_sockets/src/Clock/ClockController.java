@@ -1,17 +1,17 @@
 package Clock;
 
-import Timeholders.IClock;
-
 public class ClockController {
-    IClock clock;
+    Clock clock;
     Thread thread = null;
 
-    public ClockController(IClock clock) {
-        this.clock = clock;
+    public ClockController(Clock clock_) {
+        clock = clock_;
     }
 
     public void start() {
-        this.thread = new Thread(() -> {
+        if (thread != null)
+            stop();
+        thread = new Thread(() -> {
             try {
                 int tickDelay = clock.getTickDelay();
                 while (true) {
@@ -19,21 +19,24 @@ public class ClockController {
                     clock.tick();
                 }
             } catch (InterruptedException e) {
-                return;
             }
         });
-        this.thread.start();
+        thread.start();
     }
 
     public void stop() {
-        this.thread.interrupt();
-        this.thread = null;
+        thread.interrupt();
+        thread = null;
     }
 
     public void toggle() {
-        if (this.thread == null)
-            this.start();
+        if (thread == null)
+            start();
         else
-            this.stop();
+            stop();
+    }
+
+    public boolean isStarted() {
+        return thread != null;
     }
 }

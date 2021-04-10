@@ -33,6 +33,7 @@ public class ServerController extends Thread implements ISubscriber {
         eventManager.addSubscriber(window);
         start();
         send(new Event("Server controller started"));
+        send(new Event(EventType.CLOCK_SYNC, model.getClock()));
     }
 
     public void send(Event event) {

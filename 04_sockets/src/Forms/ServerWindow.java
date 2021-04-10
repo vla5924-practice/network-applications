@@ -16,19 +16,19 @@ public class ServerWindow implements ISubscriber {
     private JSpinner hr_s;
     private JButton toggle;
     private JButton set;
-    private JList alarms;
+    private JList<String> alarms;
     private JLabel hr;
     private JLabel min;
     private JLabel sec;
     private JTextPane log;
 
-    private DefaultListModel model_alarms;
+    private final DefaultListModel<String> model_alarms;
 
     Server server;
 
     public ServerWindow(Server server_) {
         server = server_;
-        model_alarms = new DefaultListModel();
+        model_alarms = new DefaultListModel<>();
         alarms.setModel(model_alarms);
         log.setEnabled(false);
         toggle.addActionListener(e -> onToggleClick());
@@ -72,7 +72,6 @@ public class ServerWindow implements ISubscriber {
             try {
                 seconds = clock.getSeconds();
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
             }
             hr.setText(String.valueOf(clock.getHours()));
             min.setText(String.valueOf(clock.getMinutes()));
@@ -85,9 +84,18 @@ public class ServerWindow implements ISubscriber {
             try {
                 seconds = alarm.getSeconds();
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
             }
             model_alarms.addElement(alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
+            return;
+        }
+        if (event.type == EventType.ALARM_WENT_OFF) {
+            Alarm alarm = event.alarm;
+            int seconds = 0;
+            try {
+                seconds = alarm.getSeconds();
+            } catch (NoSuchMethodException e) {
+            }
+            addLog("Alarm went off: "  + alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {

@@ -5,8 +5,6 @@ import Arch.*;
 import Clock.ClockController;
 import Clock.Clock;
 import Server.ServerModel;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -39,8 +37,16 @@ public class ClientController implements ISubscriber {
         eventManager.broadcast(event);
     }
 
-    public void addAlarm(Alarm alarm) {
-        send(new Event(EventType.ALARM_ADD_REQUEST, alarm));
+    public void onAlarmWentOff(Event event) {
+        eventManager.broadcast(event);
+    }
+
+    public void onClockUpdated(Event event) {
+        if (clockController != null)
+            clockController.stop();
+        clock = event.clock;
+        clockController = new ClockController(clock);
+        eventManager.broadcast(event);
     }
 
     public void send(Event event) {
@@ -77,6 +83,10 @@ public class ClientController implements ISubscriber {
                         Event event = JSON.get().fromJson(data, Event.class);
                         if (event.type == EventType.ALARM_ADDED) {
                             onAlarmAdded(event);
+                        } else if (event.type == EventType.CLOCK_UPDATED || event.type == EventType.CLOCK_SYNC) {
+                            onClockUpdated(event);
+                        } else if (event.type == EventType.ALARM_WENT_OFF) {
+                            onAlarmWentOff(event);
                         } else {
                             System.out.println("Unknown event: " + data);
                         }
