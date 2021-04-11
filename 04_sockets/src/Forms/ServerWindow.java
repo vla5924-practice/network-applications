@@ -51,6 +51,7 @@ public class ServerWindow implements EventListener {
 
     protected void onToggleClick() {
         eventManager.broadcast(new Event(EventType.CLOCK_TOGGLE_REQUEST));
+        toggle.setText(toggle.getText().equals("Start") ? "Stop" : "Start");
     }
 
     protected void onSetTimeClick() {
@@ -82,7 +83,7 @@ public class ServerWindow implements EventListener {
             sec.setText(String.valueOf(seconds));
             return;
         }
-        if (event.type == EventType.ALARM_ADDED) {
+        if (event.type == EventType.ALARM_ADD_REQUEST) {
             Alarm alarm = event.alarm;
             int seconds = 0;
             try {

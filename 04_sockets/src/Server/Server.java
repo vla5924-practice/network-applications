@@ -42,6 +42,7 @@ public class Server {
     public void addWindow(ServerWindow window_) {
         window = window_;
         model.addClockSubscriber(window);
+        model.addSubscriber(window);
         window.addSubscriber(model);
     }
 

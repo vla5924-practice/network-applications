@@ -84,6 +84,7 @@
           <forms/>
         </constraints>
         <properties>
+          <enabled value="false"/>
           <text value="Add alarm"/>
         </properties>
       </component>

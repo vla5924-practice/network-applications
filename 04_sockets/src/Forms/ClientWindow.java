@@ -50,7 +50,16 @@ public class ClientWindow implements EventListener {
     }
 
     protected void onConnectClick() {
-        eventManager.broadcast(new Event(EventType.CLIENT_CONNECT_REQUEST));
+        if (connect.getText().equals("Connect")) {
+            eventManager.broadcast(new Event(EventType.CLIENT_CONNECT_REQUEST));
+            connect.setText("Disconnect");
+            add.setEnabled(true);
+        } else {
+            eventManager.broadcast(new Event(EventType.CLIENT_DISCONNECT_REQUEST));
+            connect.setText("Connect");
+            alarms.removeAll();
+            add.setEnabled(false);
+        }
     }
 
     protected void onAddAlarmClick() {

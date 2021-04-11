@@ -75,7 +75,7 @@
           <forms/>
         </constraints>
         <properties>
-          <text value="Start/Stop"/>
+          <text value="Start"/>
         </properties>
       </component>
       <component id="5388a" class="javax.swing.JButton" binding="set">

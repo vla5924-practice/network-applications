@@ -1,5 +1,6 @@
 package Server;
 
+import Alarm.Alarm;
 import Arch.Event;
 import Arch.EventManager;
 import Arch.EventType;
@@ -9,6 +10,7 @@ import Forms.ServerWindow;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.LinkedList;
 
 public class ServerController extends Thread implements EventListener {
     protected EventManager eventManager = new EventManager();
@@ -37,6 +39,10 @@ public class ServerController extends Thread implements EventListener {
         start();
         eventManager.broadcast(new Event("Client #" + id + " connected"));
         send(new Event(EventType.CLOCK_SYNC, model.getClock(), model.isClockRunning()));
+        LinkedList<Alarm> alarms = model.getAlarms();
+        for (Alarm alarm: alarms) {
+            send(new Event(EventType.ALARM_ADDED, alarm));
+        }
     }
 
     public void send(Event event) {
@@ -48,6 +54,11 @@ public class ServerController extends Thread implements EventListener {
         }
     }
 
+    public void onAlarmAddRequest(Event event) {
+        model.addAlarm(event.alarm);
+        eventManager.broadcast(event);
+    }
+
     @Override
     public void run() {
         try {
@@ -57,7 +68,13 @@ public class ServerController extends Thread implements EventListener {
                 String data = distream.readUTF();
                 Event event = JSON.get().fromJson(data, Event.class);
                 if (event.type == EventType.ALARM_ADD_REQUEST) {
-                    model.addAlarm(event.alarm);
+                    onAlarmAddRequest(event);
+                } else if (event.type == EventType.CLIENT_DISCONNECT_REQUEST) {
+                    csocket.close();
+                    eventManager.broadcast(new Event("Client disconnected"));
+                    return;
+                } else {
+                    System.out.println("[Server controller run] Unsupported event: " + event.type);
                 }
             } while (true);
         } catch (IOException e) {
@@ -68,6 +85,5 @@ public class ServerController extends Thread implements EventListener {
     @Override
     public void signal(Event event) {
         send(event);
-        eventManager.broadcast(event);
     }
 }
