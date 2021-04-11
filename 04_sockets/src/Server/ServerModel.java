@@ -47,8 +47,9 @@ public class ServerModel implements EventListener {
             eventManager.broadcast(event);
             return;
         }
-        if (event.type == EventType.CLOCK_TOGGLE) {
+        if (event.type == EventType.CLOCK_TOGGLE_REQUEST) {
             clockController.toggle();
+            eventManager.broadcast(new Event(EventType.CLOCK_SYNC, clock, isClockRunning()));
             return;
         }
         if (event.type == EventType.CLOCK_UPDATE_REQUEST) {
@@ -59,12 +60,16 @@ public class ServerModel implements EventListener {
                 clock.setSeconds(clock_.getSeconds());
             } catch (NoSuchMethodException e) {
             }
-            eventManager.broadcast(new Event(EventType.CLOCK_SYNC, clock));
+            eventManager.broadcast(new Event(EventType.CLOCK_SYNC, clock, isClockRunning()));
         }
         System.out.println("[Server model signal] Unsupported event: " + event.type);
     }
 
     public void addClockSubscriber(EventListener subscriber) {
         clock.addSubscriber(subscriber);
+    }
+
+    public boolean isClockRunning() {
+        return clockController.isRunning();
     }
 }

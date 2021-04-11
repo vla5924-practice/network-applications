@@ -36,7 +36,7 @@ public class ClockController {
             stop();
     }
 
-    public boolean isStarted() {
+    public boolean isRunning() {
         return thread != null;
     }
 }

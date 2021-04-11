@@ -50,7 +50,7 @@ public class ServerWindow implements EventListener {
     }
 
     protected void onToggleClick() {
-        eventManager.broadcast(new Event(EventType.CLOCK_TOGGLE));
+        eventManager.broadcast(new Event(EventType.CLOCK_TOGGLE_REQUEST));
     }
 
     protected void onSetTimeClick() {

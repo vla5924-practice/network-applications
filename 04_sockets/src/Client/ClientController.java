@@ -49,12 +49,14 @@ public class ClientController implements EventListener {
     }
 
     public void onClockSync(Event event) {
-        if (clockController != null)
+        if (clockController != null && clockController.isRunning())
             clockController.stop();
         clock = event.clock;
         clock.addSubscriber(this);
-        clockController = new ClockController(clock);
-        clockController.start();
+        if (event.running) {
+            clockController = new ClockController(clock);
+            clockController.start();
+        }
         eventManager.broadcast(event);
     }
 

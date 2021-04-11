@@ -41,6 +41,9 @@ class EventDeserializer implements JsonDeserializer<Event> {
                 }
             }
         }
+        if (object.has("running")) {
+            event.running = object.get("running").getAsBoolean();
+        }
         return event;
     }
 }

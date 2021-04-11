@@ -36,7 +36,7 @@ public class ServerController extends Thread implements EventListener {
         eventManager.addSubscriber(window);
         start();
         eventManager.broadcast(new Event("Client #" + id + " connected"));
-        send(new Event(EventType.CLOCK_SYNC, model.getClock()));
+        send(new Event(EventType.CLOCK_SYNC, model.getClock(), model.isClockRunning()));
     }
 
     public void send(Event event) {

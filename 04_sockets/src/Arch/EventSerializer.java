@@ -34,6 +34,7 @@ class EventSerializer implements JsonSerializer<Event> {
             }
             result.add("alarm", alarm);
         }
+        result.addProperty("running", event.running);
         return result;
     }
 }
