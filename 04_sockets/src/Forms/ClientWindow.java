@@ -57,7 +57,8 @@ public class ClientWindow implements EventListener {
         } else {
             eventManager.broadcast(new Event(EventType.CLIENT_DISCONNECT_REQUEST));
             connect.setText("Connect");
-            alarms.removeAll();
+            model_alarms.removeAllElements();
+            model_log.removeAllElements();
             add.setEnabled(false);
         }
     }
