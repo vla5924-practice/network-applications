@@ -46,7 +46,7 @@ public class ClientWindow implements EventListener {
     }
 
     protected void addLog(String message) {
-        model_log.addElement(message);
+        model_log.insertElementAt(message, 0);
     }
 
     protected void onConnectClick() {
