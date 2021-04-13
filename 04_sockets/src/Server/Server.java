@@ -48,7 +48,7 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
-        ServerWindow window = new ServerWindow(server);
+        ServerWindow window = new ServerWindow();
         server.addWindow(window);
         JFrame frame = new JFrame("Server");
         frame.setContentPane(window.getPanel());

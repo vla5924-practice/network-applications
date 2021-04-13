@@ -29,14 +29,23 @@ public class ServerWindow implements EventListener {
     private DefaultListModel<String> model_alarms;
     private DefaultListModel<String> model_log;
 
-    Server server;
+    private SpinnerNumberModel model_hr_s;
+    private SpinnerNumberModel model_min_s;
+    private SpinnerNumberModel model_sec_s;
 
-    public ServerWindow(Server server_) {
-        server = server_;
+    public ServerWindow() {
         model_alarms = new DefaultListModel<>();
         alarms.setModel(model_alarms);
         model_log = new DefaultListModel<>();
         log.setModel(model_log);
+
+        model_hr_s = new SpinnerNumberModel(0, 0, 11, 1);
+        hr_s.setModel(model_hr_s);
+        model_min_s = new SpinnerNumberModel(0, 0, 59, 1);
+        min_s.setModel(model_min_s);
+        model_sec_s = new SpinnerNumberModel(0, 0, 59, 1);
+        sec_s.setModel(model_sec_s);
+
         toggle.addActionListener(e -> onToggleClick());
         set.addActionListener(e -> onSetTimeClick());
     }
