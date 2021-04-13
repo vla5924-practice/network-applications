@@ -1,13 +1,12 @@
 package Forms;
 
 import Alarm.Alarm;
-import Arch.Event;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.EventListener;
 import Clock.Clock;
 import Clock.ClockHMS;
-import Server.Server;
+import Events.Event;
+import Events.EventManager;
+import Events.EventType;
+import Events.EventListener;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package Arch;
+package Events;
 
 import Alarm.Alarm;
 import Clock.Clock;

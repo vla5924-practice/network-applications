@@ -1,4 +1,4 @@
-package Arch;
+package Events;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

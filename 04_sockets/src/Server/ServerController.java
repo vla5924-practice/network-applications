@@ -1,11 +1,11 @@
 package Server;
 
 import Alarm.Alarm;
-import Arch.Event;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.EventListener;
-import Arch.JSON;
+import Events.Event;
+import Events.EventManager;
+import Events.EventType;
+import Events.EventListener;
+import Events.JSON;
 import Forms.ServerWindow;
 
 import java.io.*;

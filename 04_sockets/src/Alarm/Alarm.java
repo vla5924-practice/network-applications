@@ -1,10 +1,10 @@
 package Alarm;
 
-import Arch.Event;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.EventListener;
 import Clock.Clock;
+import Events.Event;
+import Events.EventManager;
+import Events.EventType;
+import Events.EventListener;
 import Timeholders.IAlarm;
 
 public abstract class Alarm implements IAlarm, EventListener {

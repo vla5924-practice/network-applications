@@ -1,12 +1,12 @@
 package Client;
 
-import Arch.Event;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.EventListener;
-import Arch.JSON;
 import Clock.ClockController;
 import Clock.Clock;
+import Events.Event;
+import Events.EventManager;
+import Events.EventType;
+import Events.EventListener;
+import Events.JSON;
 
 import java.io.*;
 import java.net.InetAddress;

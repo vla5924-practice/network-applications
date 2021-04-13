@@ -1,4 +1,4 @@
-package Arch;
+package Events;
 
 public enum EventType {
     ALARM_ADDED,

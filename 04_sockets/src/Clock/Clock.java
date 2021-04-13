@@ -1,9 +1,9 @@
 package Clock;
 
-import Arch.Event;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.EventListener;
+import Events.Event;
+import Events.EventManager;
+import Events.EventType;
+import Events.EventListener;
 import Timeholders.IClock;
 
 public abstract class Clock implements IClock {

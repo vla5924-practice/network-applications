@@ -1,13 +1,13 @@
 package Server;
 
 import Alarm.Alarm;
-import Arch.Event;
-import Arch.EventManager;
-import Arch.EventType;
-import Arch.EventListener;
 import Clock.BClock;
 import Clock.Clock;
 import Clock.ClockController;
+import Events.Event;
+import Events.EventManager;
+import Events.EventType;
+import Events.EventListener;
 import Timeholders.TimeholderType;
 
 import java.util.LinkedList;
