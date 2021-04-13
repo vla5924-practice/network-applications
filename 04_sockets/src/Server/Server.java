@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 public class Server {
     int port = 5924;
     InetAddress host = null;
+    ServerSocket socket = null;
 
     ServerModel model = new ServerModel();
     int nofClients = 0;
@@ -27,10 +28,10 @@ public class Server {
 
     public void start() {
         try {
-            ServerSocket ssocket = new ServerSocket(port, 0, host);
+            socket = new ServerSocket(port, 0, host);
             System.out.println("Server started");
             while (true) {
-                Socket csocket = ssocket.accept();
+                Socket csocket = socket.accept();
                 nofClients++;
                 new ServerController(nofClients, csocket, model, window);
             }
