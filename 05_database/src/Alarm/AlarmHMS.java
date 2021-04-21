@@ -2,16 +2,31 @@ package Alarm;
 
 import Clock.Clock;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "alarms_hms")
 public class AlarmHMS extends AlarmHM {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    protected int id;
+
+    @Column
+    protected int hours = 0;
+
+    @Column
+    protected int minutes = 0;
+
+    @Column
     protected int seconds = 0;
+
+    public int getId() {
+        return id;
+    }
 
     public AlarmHMS() {
         super();
-    }
-
-    public AlarmHMS(int hours, int minutes, int seconds) {
-        super(hours, minutes);
-        setSeconds(seconds);
     }
 
     @Override
@@ -28,7 +43,7 @@ public class AlarmHMS extends AlarmHM {
 
     @Override
     protected boolean isSameTime(Clock clock) {
-        int clockSeconds = 0;
+        int clockSeconds;
         try {
             clockSeconds = clock.getSeconds();
         } catch (NoSuchMethodException e) {
@@ -36,5 +51,10 @@ public class AlarmHMS extends AlarmHM {
             return false;
         }
         return hours == clock.getHours() && minutes == clock.getMinutes() && seconds == clockSeconds;
+    }
+
+    @Override
+    public String toString() {
+        return "%02d:%02d:%02d".formatted(hours, minutes, seconds);
     }
 }

@@ -3,6 +3,7 @@ package Events;
 public enum EventType {
     ALARM_ADDED,
     ALARM_ADD_REQUEST,
+    ALARM_DELETE_REQUEST,
     ALARM_SYNC,
     ALARM_WENT_OFF,
     SERVICE_MESSAGE,

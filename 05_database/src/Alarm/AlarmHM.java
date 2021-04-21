@@ -9,11 +9,6 @@ public class AlarmHM extends Alarm {
     public AlarmHM() {
     }
 
-    public AlarmHM(int hours, int minutes) {
-        this.setHours(hours);
-        this.setMinutes(minutes);
-    }
-
     @Override
     public void setHours(int hours) {
         if (hours < 0 || hours > 11)
@@ -51,5 +46,10 @@ public class AlarmHM extends Alarm {
     @Override
     protected boolean isSameTime(Clock clock) {
         return hours == clock.getHours() && minutes == clock.getMinutes();
+    }
+
+    @Override
+    public String toString() {
+        return "%02d:%02d:%02d".formatted(hours, minutes);
     }
 }

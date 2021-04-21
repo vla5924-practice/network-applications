@@ -26,4 +26,6 @@ public abstract class Alarm implements IAlarm, EventListener {
             return;
         }
     }
+
+    public abstract String toString();
 }

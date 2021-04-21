@@ -19,13 +19,13 @@ public class ClientWindow implements EventListener {
     private JSpinner sec_s;
     private JButton connect;
     private JButton add;
-    private JList<String> alarms;
+    private JList<Alarm> alarms;
     private JList<String> log;
     private JLabel hr;
     private JLabel min;
     private JLabel sec;
 
-    private DefaultListModel<String> model_alarms;
+    private DefaultListModel<Alarm> model_alarms;
     private DefaultListModel<String> model_log;
 
     private SpinnerNumberModel model_hr_s;
@@ -102,24 +102,11 @@ public class ClientWindow implements EventListener {
             return;
         }
         if (event.type == EventType.ALARM_ADDED) {
-            Alarm alarm = event.alarm;
-            int seconds = 0;
-            try {
-                seconds = alarm.getSeconds();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-            model_alarms.addElement(alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
+            model_alarms.addElement(event.alarm);
             return;
         }
         if (event.type == EventType.ALARM_WENT_OFF) {
-            Alarm alarm = event.alarm;
-            int seconds = 0;
-            try {
-                seconds = alarm.getSeconds();
-            } catch (NoSuchMethodException e) {
-            }
-            addLog("Alarm went off: "  + alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
+            addLog("Alarm went off: "  + event.alarm);
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {

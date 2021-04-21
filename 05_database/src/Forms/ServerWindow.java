@@ -19,13 +19,14 @@ public class ServerWindow implements EventListener {
     private JSpinner hr_s;
     private JButton toggle;
     private JButton set;
-    private JList<String> alarms;
+    private JList<Alarm> alarms;
     private JLabel hr;
     private JLabel min;
     private JLabel sec;
     private JList<String> log;
+    private JButton deleteButton;
 
-    private DefaultListModel<String> model_alarms;
+    private DefaultListModel<Alarm> model_alarms;
     private DefaultListModel<String> model_log;
 
     private SpinnerNumberModel model_hr_s;
@@ -47,6 +48,18 @@ public class ServerWindow implements EventListener {
 
         toggle.addActionListener(e -> onToggleClick());
         set.addActionListener(e -> onSetTimeClick());
+        deleteButton.addActionListener(e -> onDeleteClick());
+    }
+
+    private void onDeleteClick() {
+        if (model_alarms.size() == 0)
+            return;
+        Alarm alarm = alarms.getSelectedValue();
+        if (alarm == null)
+            return;
+        int index = alarms.getSelectedIndex();
+        eventManager.broadcast(new Event(EventType.ALARM_DELETE_REQUEST, alarm));
+        model_alarms.remove(index);
     }
 
     public JPanel getPanel() {
@@ -92,23 +105,11 @@ public class ServerWindow implements EventListener {
             return;
         }
         if (event.type == EventType.ALARM_ADD_REQUEST) {
-            Alarm alarm = event.alarm;
-            int seconds = 0;
-            try {
-                seconds = alarm.getSeconds();
-            } catch (NoSuchMethodException e) {
-            }
-            model_alarms.addElement(alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
+            model_alarms.addElement(event.alarm);
             return;
         }
         if (event.type == EventType.ALARM_WENT_OFF) {
-            Alarm alarm = event.alarm;
-            int seconds = 0;
-            try {
-                seconds = alarm.getSeconds();
-            } catch (NoSuchMethodException e) {
-            }
-            addLog("Alarm went off: "  + alarm.getHours() + ":" + alarm.getMinutes() + ":" + seconds);
+            addLog("Alarm went off: "  + event.alarm);
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {

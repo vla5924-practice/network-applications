@@ -4,6 +4,7 @@ import Alarm.Alarm;
 import Clock.BClock;
 import Clock.Clock;
 import Clock.ClockController;
+import Database.DatabaseService;
 import Events.Event;
 import Events.EventManager;
 import Events.EventType;
@@ -18,6 +19,7 @@ public class ServerModel implements EventListener {
     private Clock clock = BClock.build(TimeholderType.HMS);
     private ClockController clockController = new ClockController(clock);
     private LinkedList<Alarm> alarms = new LinkedList<>();
+    private DatabaseService db = new DatabaseService();
 
     public ServerModel() {
     }
@@ -30,6 +32,7 @@ public class ServerModel implements EventListener {
         alarm.addSubscriber(this);
         addClockSubscriber(alarm);
         alarms.add(alarm);
+        db.insertAlarm(alarm);
         eventManager.broadcast(new Event(EventType.ALARM_ADDED, alarm));
     }
 
@@ -46,6 +49,9 @@ public class ServerModel implements EventListener {
         if (event.type == EventType.ALARM_WENT_OFF) {
             eventManager.broadcast(event);
             return;
+        }
+        if (event.type == EventType.ALARM_DELETE_REQUEST) {
+            db.deleteAlarm(event.alarm);
         }
         if (event.type == EventType.CLOCK_TOGGLE_REQUEST) {
             clockController.toggle();
