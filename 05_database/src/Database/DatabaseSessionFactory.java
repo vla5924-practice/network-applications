@@ -1,6 +1,7 @@
 package Database;
 
 import Alarm.AlarmHMS;
+import Alarm.AlarmHM;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -17,6 +18,7 @@ public class DatabaseSessionFactory {
             try {
                 Configuration configuration = new Configuration().configure("/cfg.xml");
                 configuration.addAnnotatedClass(AlarmHMS.class);
+                configuration.addAnnotatedClass(AlarmHM.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());
 

@@ -59,6 +59,11 @@ public class ServerController extends Thread implements EventListener {
         eventManager.broadcast(event);
     }
 
+    public void onAlarmDeleteRequest(Event event) {
+        model.deleteAlarm(event.alarm);
+        eventManager.broadcast(event);
+    }
+
     @Override
     public void run() {
         try {
@@ -66,9 +71,12 @@ public class ServerController extends Thread implements EventListener {
             distream = new DataInputStream(istream);
             do {
                 String data = distream.readUTF();
+                System.out.println(data);
                 Event event = JSON.get().fromJson(data, Event.class);
                 if (event.type == EventType.ALARM_ADD_REQUEST) {
                     onAlarmAddRequest(event);
+                } else if (event.type == EventType.ALARM_DELETE_REQUEST) {
+                    onAlarmDeleteRequest(event);
                 } else if (event.type == EventType.CLIENT_DISCONNECT_REQUEST) {
                     csocket.close();
                     eventManager.broadcast(new Event("Client disconnected"));

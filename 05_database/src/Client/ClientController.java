@@ -43,6 +43,10 @@ public class ClientController implements EventListener {
         eventManager.broadcast(event);
     }
 
+    public void onAlarmDeleted(Event event) {
+        eventManager.broadcast(event);
+    }
+
     public void onAlarmWentOff(Event event) {
         eventManager.broadcast(event);
     }
@@ -117,6 +121,10 @@ public class ClientController implements EventListener {
             send(event);
             return;
         }
+        if (event.type == EventType.ALARM_DELETE_REQUEST) {
+            send(event);
+            return;
+        }
         if (event.type == EventType.CLOCK_UPDATED) {
             eventManager.broadcast(event);
             return;
@@ -141,6 +149,8 @@ public class ClientController implements EventListener {
                     onClockSync(event);
                 } else if (event.type == EventType.ALARM_WENT_OFF) {
                     onAlarmWentOff(event);
+                } else if (event.type == EventType.ALARM_DELETED) {
+                    onAlarmDeleted(event);
                 } else if (event.type == EventType.SERVICE_MESSAGE) {
                     onServiceMessage(event);
                 } else {

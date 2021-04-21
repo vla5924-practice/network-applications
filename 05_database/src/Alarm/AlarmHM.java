@@ -2,8 +2,16 @@ package Alarm;
 
 import Clock.Clock;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "alarm_hm")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AlarmHM extends Alarm {
+    @Column
     protected int hours = 0;
+
+    @Column
     protected int minutes = 0;
 
     public AlarmHM() {

@@ -7,17 +7,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "alarms_hms")
 public class AlarmHMS extends AlarmHM {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
-    protected int id;
-
-    @Column
-    protected int hours = 0;
-
-    @Column
-    protected int minutes = 0;
-
     @Column
     protected int seconds = 0;
 

@@ -57,9 +57,7 @@ public class ServerWindow implements EventListener {
         Alarm alarm = alarms.getSelectedValue();
         if (alarm == null)
             return;
-        int index = alarms.getSelectedIndex();
         eventManager.broadcast(new Event(EventType.ALARM_DELETE_REQUEST, alarm));
-        model_alarms.remove(index);
     }
 
     public JPanel getPanel() {
@@ -108,8 +106,15 @@ public class ServerWindow implements EventListener {
             model_alarms.addElement(event.alarm);
             return;
         }
+        if (event.type == EventType.ALARM_DELETED) {
+            addLog("Alarm deleted: " + event.alarm);
+            model_alarms.removeElement(event.alarm);
+            return;
+        }
         if (event.type == EventType.ALARM_WENT_OFF) {
-            addLog("Alarm went off: "  + event.alarm);
+            Alarm alarm = event.alarm;
+            addLog("Alarm went off: "  + alarm);
+            model_alarms.removeElement(alarm);
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {

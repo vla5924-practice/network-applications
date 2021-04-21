@@ -7,8 +7,23 @@ import Events.EventType;
 import Events.EventListener;
 import Timeholders.IAlarm;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "alarm_abstract")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Alarm implements IAlarm, EventListener {
+    @Transient
     protected EventManager eventManager = new EventManager();
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    protected int id;
+
+    public int getId() {
+        return id;
+    }
 
     public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);

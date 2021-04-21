@@ -24,6 +24,7 @@ public class ClientWindow implements EventListener {
     private JLabel hr;
     private JLabel min;
     private JLabel sec;
+    private JButton deleteButton;
 
     private DefaultListModel<Alarm> model_alarms;
     private DefaultListModel<String> model_log;
@@ -47,6 +48,18 @@ public class ClientWindow implements EventListener {
 
         connect.addActionListener(e -> onConnectClick());
         add.addActionListener(e -> onAddAlarmClick());
+        deleteButton.addActionListener(e -> onDeleteClick());
+    }
+
+    private void onDeleteClick() {
+        if (model_alarms.size() == 0)
+            return;
+        Alarm alarm = alarms.getSelectedValue();
+        if (alarm == null)
+            return;
+        int index = alarms.getSelectedIndex();
+        eventManager.broadcast(new Event(EventType.ALARM_DELETE_REQUEST, alarm));
+        model_alarms.remove(index);
     }
 
     public JPanel getPanel() {
@@ -105,8 +118,14 @@ public class ClientWindow implements EventListener {
             model_alarms.addElement(event.alarm);
             return;
         }
+        if (event.type == EventType.ALARM_DELETED) {
+            Alarm alarm = event.alarm;
+            addLog("Alarm deleted: "  + alarm);
+            model_alarms.removeElement(alarm);
+        }
         if (event.type == EventType.ALARM_WENT_OFF) {
-            addLog("Alarm went off: "  + event.alarm);
+            Alarm alarm = event.alarm;
+            addLog("Alarm went off: "  + alarm);
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {

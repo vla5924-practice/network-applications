@@ -36,6 +36,11 @@ public class ServerModel implements EventListener {
         eventManager.broadcast(new Event(EventType.ALARM_ADDED, alarm));
     }
 
+    public void deleteAlarm(Alarm alarm) {
+        db.deleteAlarm(alarm);
+        eventManager.broadcast(new Event(EventType.ALARM_DELETED, alarm));
+    }
+
     public LinkedList<Alarm> getAlarms() {
         return alarms;
     }
@@ -47,11 +52,13 @@ public class ServerModel implements EventListener {
     @Override
     public void signal(Event event) {
         if (event.type == EventType.ALARM_WENT_OFF) {
+            db.deleteAlarm(event.alarm);
             eventManager.broadcast(event);
             return;
         }
         if (event.type == EventType.ALARM_DELETE_REQUEST) {
-            db.deleteAlarm(event.alarm);
+            deleteAlarm(event.alarm);
+            return;
         }
         if (event.type == EventType.CLOCK_TOGGLE_REQUEST) {
             clockController.toggle();
