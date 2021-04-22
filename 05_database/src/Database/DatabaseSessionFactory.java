@@ -13,7 +13,7 @@ public class DatabaseSessionFactory {
     private DatabaseSessionFactory() {
     }
 
-    public static SessionFactory getFactory() {
+    public static SessionFactory getInstance() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration().configure("/cfg.xml");
@@ -27,9 +27,5 @@ public class DatabaseSessionFactory {
             }
         }
         return sessionFactory;
-    }
-
-    public static Session openSession() {
-        return getFactory().openSession();
     }
 }

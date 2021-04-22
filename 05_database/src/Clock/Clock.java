@@ -16,4 +16,6 @@ public abstract class Clock implements IClock {
     public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
     }
+
+    public abstract String toString();
 }

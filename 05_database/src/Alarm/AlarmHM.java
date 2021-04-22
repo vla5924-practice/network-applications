@@ -57,6 +57,14 @@ public class AlarmHM extends Alarm {
     }
 
     @Override
+    public boolean equals(Alarm alarm) {
+        if (!alarm.getClass().isAssignableFrom(AlarmHM.class))
+            return false;
+        AlarmHM alarmHM = (AlarmHM) alarm;
+        return alarmHM.hours == hours && alarmHM.minutes == minutes && alarmHM.id == id;
+    }
+
+    @Override
     public String toString() {
         return "%02d:%02d:%02d".formatted(hours, minutes);
     }

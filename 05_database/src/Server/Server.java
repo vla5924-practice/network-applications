@@ -28,6 +28,7 @@ public class Server {
 
     public void start() {
         try {
+            model.fetchAlarms();
             socket = new ServerSocket(port, 0, host);
             System.out.println("Server started");
             while (true) {

@@ -26,6 +26,7 @@ class EventSerializer implements JsonSerializer<Event> {
         }
         if (event.alarm != null) {
             JsonObject alarm = new JsonObject();
+            alarm.addProperty("id", event.alarm.getId());
             alarm.addProperty("h", event.alarm.getHours());
             alarm.addProperty("m", event.alarm.getMinutes());
             try {

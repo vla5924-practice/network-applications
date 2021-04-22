@@ -11,7 +11,7 @@ public class DatabaseService {
     public void insertAlarm(Alarm alarm) {
         if (!alarm.getClass().isAssignableFrom(AlarmHMS.class) && !alarm.getClass().isAssignableFrom(AlarmHM.class))
             return;
-        Session session = DatabaseSessionFactory.openSession();
+        Session session = DatabaseSessionFactory.getInstance().openSession();
         Transaction transaction = session.beginTransaction();
         session.save(alarm);
         transaction.commit();
@@ -21,7 +21,7 @@ public class DatabaseService {
     public void deleteAlarm(Alarm alarm) {
         if (!alarm.getClass().isAssignableFrom(AlarmHMS.class) && !alarm.getClass().isAssignableFrom(AlarmHM.class))
             return;
-        Session session = DatabaseSessionFactory.openSession();
+        Session session = DatabaseSessionFactory.getInstance().openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(alarm);
         transaction.commit();

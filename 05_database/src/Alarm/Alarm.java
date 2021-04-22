@@ -19,7 +19,7 @@ public abstract class Alarm implements IAlarm, EventListener {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    protected int id;
+    public int id;
 
     public int getId() {
         return id;
@@ -27,6 +27,10 @@ public abstract class Alarm implements IAlarm, EventListener {
 
     public void addSubscriber(EventListener subscriber) {
         eventManager.addSubscriber(subscriber);
+    }
+
+    public void removeSubscriber(EventListener subscriber) {
+        eventManager.removeSubscriber(subscriber);
     }
 
     protected abstract boolean isSameTime(Clock clock);
@@ -41,6 +45,8 @@ public abstract class Alarm implements IAlarm, EventListener {
             return;
         }
     }
+
+    public abstract boolean equals(Alarm alarm);
 
     public abstract String toString();
 }

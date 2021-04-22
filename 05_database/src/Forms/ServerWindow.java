@@ -24,7 +24,6 @@ public class ServerWindow implements EventListener {
     private JLabel min;
     private JLabel sec;
     private JList<String> log;
-    private JButton deleteButton;
 
     private DefaultListModel<Alarm> model_alarms;
     private DefaultListModel<String> model_log;
@@ -48,16 +47,6 @@ public class ServerWindow implements EventListener {
 
         toggle.addActionListener(e -> onToggleClick());
         set.addActionListener(e -> onSetTimeClick());
-        deleteButton.addActionListener(e -> onDeleteClick());
-    }
-
-    private void onDeleteClick() {
-        if (model_alarms.size() == 0)
-            return;
-        Alarm alarm = alarms.getSelectedValue();
-        if (alarm == null)
-            return;
-        eventManager.broadcast(new Event(EventType.ALARM_DELETE_REQUEST, alarm));
     }
 
     public JPanel getPanel() {
@@ -108,7 +97,9 @@ public class ServerWindow implements EventListener {
         }
         if (event.type == EventType.ALARM_DELETED) {
             addLog("Alarm deleted: " + event.alarm);
-            model_alarms.removeElement(event.alarm);
+            for (int i = 0; i < model_alarms.size(); i++)
+                if (model_alarms.get(i).equals(event.alarm))
+                    model_alarms.remove(i);
             return;
         }
         if (event.type == EventType.ALARM_WENT_OFF) {

@@ -1,17 +1,21 @@
 package Server;
 
 import Alarm.Alarm;
+import Alarm.AlarmHMS;
 import Clock.BClock;
 import Clock.Clock;
 import Clock.ClockController;
 import Database.DatabaseService;
+import Database.DatabaseSessionFactory;
 import Events.Event;
 import Events.EventManager;
 import Events.EventType;
 import Events.EventListener;
 import Timeholders.TimeholderType;
+import org.hibernate.Session;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class ServerModel implements EventListener {
     private EventManager eventManager = new EventManager();
@@ -37,8 +41,23 @@ public class ServerModel implements EventListener {
     }
 
     public void deleteAlarm(Alarm alarm) {
-        db.deleteAlarm(alarm);
         eventManager.broadcast(new Event(EventType.ALARM_DELETED, alarm));
+        alarm.removeSubscriber(this);
+        db.deleteAlarm(alarm);
+    }
+
+    public void fetchAlarms() {
+        Session session = DatabaseSessionFactory.getInstance().openSession();
+        List<AlarmHMS> raw_alarms = session.createQuery("from AlarmHMS", AlarmHMS.class).getResultList();
+        if (raw_alarms != null) {
+            for (AlarmHMS alarm : raw_alarms) {
+                alarm.addSubscriber(this);
+                addClockSubscriber(alarm);
+                alarms.add(alarm);
+                eventManager.broadcast(new Event(EventType.ALARM_ADD_REQUEST, alarm));
+            }
+        }
+        session.close();
     }
 
     public LinkedList<Alarm> getAlarms() {
@@ -52,7 +71,7 @@ public class ServerModel implements EventListener {
     @Override
     public void signal(Event event) {
         if (event.type == EventType.ALARM_WENT_OFF) {
-            db.deleteAlarm(event.alarm);
+            deleteAlarm(event.alarm);
             eventManager.broadcast(event);
             return;
         }

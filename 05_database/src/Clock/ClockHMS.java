@@ -48,4 +48,9 @@ public class ClockHMS extends ClockHM {
     public int getTickDelay() {
         return 999;
     }
+
+    @Override
+    public String toString() {
+        return "%02d:%02d:%02d".formatted(hours, minutes, seconds);
+    }
 }

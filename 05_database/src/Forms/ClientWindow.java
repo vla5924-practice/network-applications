@@ -21,7 +21,7 @@ public class ClientWindow implements EventListener {
     private JButton add;
     private JList<Alarm> alarms;
     private JList<String> log;
-    private JLabel hr;
+    private JLabel clockLabel;
     private JLabel min;
     private JLabel sec;
     private JButton deleteButton;
@@ -103,15 +103,7 @@ public class ClientWindow implements EventListener {
     public void signal(Event event) {
         if (event.type == EventType.CLOCK_SYNC || event.type == EventType.CLOCK_UPDATED) {
             Clock clock = event.clock;
-            int seconds = 0;
-            try {
-                seconds = clock.getSeconds();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-            hr.setText(String.valueOf(clock.getHours()));
-            min.setText(String.valueOf(clock.getMinutes()));
-            sec.setText(String.valueOf(seconds));
+            clockLabel.setText(clock.toString());
             return;
         }
         if (event.type == EventType.ALARM_ADDED) {
@@ -121,11 +113,17 @@ public class ClientWindow implements EventListener {
         if (event.type == EventType.ALARM_DELETED) {
             Alarm alarm = event.alarm;
             addLog("Alarm deleted: "  + alarm);
-            model_alarms.removeElement(alarm);
+            for (int i = 0; i < model_alarms.size(); i++)
+                if (model_alarms.get(i).equals(alarm))
+                    model_alarms.remove(i);
+            return;
         }
         if (event.type == EventType.ALARM_WENT_OFF) {
             Alarm alarm = event.alarm;
-            addLog("Alarm went off: "  + alarm);
+            addLog("===== ALARM WENT OFF: "  + alarm + " =====");
+            for (int i = 0; i < model_alarms.size(); i++)
+                if (model_alarms.get(i).equals(alarm))
+                    model_alarms.remove(i);
             return;
         }
         if (event.type == EventType.SERVICE_MESSAGE) {

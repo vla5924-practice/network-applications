@@ -32,6 +32,7 @@ class EventDeserializer implements JsonDeserializer<Event> {
             JsonObject alarm = object.getAsJsonObject("alarm");
             TimeholderType alarmType = alarm.has("s") ? TimeholderType.HMS : TimeholderType.HM;
             event.alarm = BAlarm.build(alarmType);
+            event.alarm.id = alarm.get("id").getAsInt();
             event.alarm.setHours(alarm.get("h").getAsInt());
             event.alarm.setMinutes(alarm.get("m").getAsInt());
             if (alarmType == TimeholderType.HMS) {
